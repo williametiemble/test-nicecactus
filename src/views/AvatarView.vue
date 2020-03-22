@@ -15,16 +15,15 @@
 </template>
 
 <script>
-
 import Button from '@/components/Button.vue'
 import {
   Avatar1,
   Avatar2,
-} from '@/plugins/Avatar'
+} from '@/plugins/Avatar/index.js'
 import {
   mapActions,
-} from '@/store/modules/ppc-southpark'
-import { Action } from '@/store/modules/ppc-southpark/types'
+} from 'vuex'
+
 
 export default {
   name: 'AvatarView',
@@ -40,7 +39,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      savePlayer: Action.SAVE_PLAYER,
+      savePlayer: 'savePlayer',
     }),
     selectAvatar (value) {
       this.avatar = value

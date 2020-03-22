@@ -5,7 +5,7 @@
       <div class="left">
         <template v-if="isUser()">
           <div class="name">You</div>
-          <component :is="'Avatar' + getPlayer" />
+          <component v-if="getPlayer" :is="'Avatar' + getPlayer" />
         </template>
         <template v-else>
           <div class="name">COM</div>
@@ -22,7 +22,7 @@
         <div class="left">{{getChoiceLabel(choice1)}}</div>
         <div class="right">{{getChoiceLabel(choice2)}}</div>
       </div>
-      <div class="winner">{{winner}}</div>
+      <div class="winner">{{winnerText}}</div>
     </div>
     <div v-if="type === 'user'" class="action">
       <div class="title">Select your hand</div>
@@ -40,8 +40,7 @@
 <script>
 import {
   mapGetters,
-} from '@/store/modules/ppc-southpark'
-import { Getter } from '@/store/modules/ppc-southpark/types'
+} from 'vuex'
 import {
   Avatar1,
   Avatar2,
@@ -49,7 +48,7 @@ import {
 import Button from '@/components/Button.vue'
 
 export default {
-  name: 'Background',
+  name: 'Fight',
   components: {
     Avatar1,
     Avatar2,
@@ -70,14 +69,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getPlayer: Getter.GET_PLAYER,
+      getPlayer: 'getPlayer',
     }),
-    winner () {
+    winnerText () {
       let fighter = 'You'
       if (!this.isUser()) fighter = 'COM'
       if (this.choice1 === this.choice2) {
         return 'Egality'
-      } else if (this.choice1 > this.choice2 || (this.choice1 === 0 && this.choice2 === 2)) {
+      } else if (this.choice1 === this.choice2 + 1 || (this.choice1 === 0 && this.choice2 === 2)) {
         return fighter + ' Win'
       } else {
         return fighter + ' Loose'
@@ -90,7 +89,7 @@ export default {
     },
     play (choice) {
       this.played = true
-      if (!this.isUser()) {
+      if (!choice) {
         this.choice1 = this.getChoice()
       } else {
         this.choice1 = choice
@@ -136,13 +135,6 @@ export default {
     > div {
       display: inline-block;
       margin-top: 20px;
-
-      &.left {
-        margin-right: 10%;
-      }
-      &.right {
-        margin-left: 10%;
-      }
 
       .name {
         color: #0063B2;

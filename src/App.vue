@@ -10,19 +10,18 @@
 import {
   mapGetters,
   mapActions,
-} from '@/store/modules/ppc-southpark'
-import { Action, Getter } from '@/store/modules/ppc-southpark/types'
+} from 'vuex'
 
 export default {
   name: 'App',
   computed: {
     ...mapGetters({
-      getPlayer: Getter.GET_PLAYER,
+      getPlayer: 'getPlayer',
     }),
   },
   methods: {
     ...mapActions({
-      getPlayerSaved: Action.GET_PLAYER_SAVED,
+      getPlayerSaved: 'getPlayerSaved',
     }),
   },
   async created() {

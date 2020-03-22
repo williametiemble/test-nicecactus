@@ -1,14 +1,30 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// modules
-import ppcSouthpark from './modules/ppc-southpark'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  modules: {
-    ppcSouthpark,
+  state: {
+    player: null,
   },
-  strict: process.env.NODE_ENV !== 'production',
+  getters: {
+    getPlayer (state) {
+      return state.player
+    },
+  },
+  mutations: {
+    setPlayer (state, player) {
+      state.player = player
+    },
+  },
+  actions: {
+    getPlayerSaved ({commit}) {
+      const player = localStorage.getItem('ppc-southpark-player')
+      commit('setPlayer', player)
+    },
+    savePlayer ({commit}, player) {
+      localStorage.setItem('ppc-southpark-player', player)
+      commit('setPlayer', player)
+    },
+  }
 })

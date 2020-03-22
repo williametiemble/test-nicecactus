@@ -11,8 +11,7 @@
 
 import {
   mapGetters,
-} from '@/store/modules/ppc-southpark'
-import { Getter } from '@/store/modules/ppc-southpark/types'
+} from 'vuex'
 import {
   Avatar1,
   Avatar2,
@@ -32,7 +31,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getPlayer: Getter.GET_PLAYER,
+      getPlayer: 'getPlayer',
     }),
   },
 }
